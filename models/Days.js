@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
-const DiseaseSchema = new mongoose.Schema({
-    title: {
+const DaysSchema = new mongoose.Schema({
+    prescription: {
       type: String,
       require: [true, "Title is required"],
     },
@@ -14,16 +14,6 @@ const DiseaseSchema = new mongoose.Schema({
     pay :  {
       type : Number
     },
-    treatment : {
-      type : String
-    },
-    treatmentPlan : {
-      type : String
-    },
-    days : [{
-      type : mongoose.Schema.ObjectId,
-      ref : 'days'}
-    ],
     date: {
       type: Date,
       default: Date.now,
@@ -32,6 +22,6 @@ const DiseaseSchema = new mongoose.Schema({
 
 
 
-const Disease = mongoose.model("disease", DiseaseSchema);
+const Disease = mongoose.model("days", DaysSchema);
 module.exports = Disease;
   
