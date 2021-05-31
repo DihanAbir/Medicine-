@@ -68,3 +68,60 @@ exports.getAUser = asycnHandler( async(req,res)=>{
         
     })
 })
+
+
+
+
+//@desc Update a user by phone number
+//@route PUT  /api/v1/user/:phoneNumber
+//@access Public
+exports.updateAUser = asycnHandler( async(req,res)=>{
+    const findPhone = req.params.phone;
+    const user = await User.findOne({phone : findPhone})
+
+    if(!user) {
+        res.status(200).json({
+            data : "There is no user"
+        })
+    }
+
+    if(user){
+        user.name = req.body.name || user.name
+        user.phone = req.body.phone || user.phone
+        user.age = req.body.age || user.age
+        user.bloodGroup = req.body.bloodGroup || user.bloodGroup
+        user.address = req.body.address || user.address
+    }
+
+    const updatedUser = await user.save();
+
+    res.status(200).json({
+        success : true,
+        data : updatedUser,
+    })
+})
+
+
+
+
+
+//@desc Delete a user by phone number
+//@route DELETE  /api/v1/user/:phoneNumber
+//@access Public
+exports.deleteAUser = asycnHandler( async(req,res)=>{
+    const findPhone = req.params.phone;
+    const user = await User.findOne({phone : findPhone})
+
+    if(!user) {
+        res.status(200).json({
+            data : "There is no user"
+        })
+    }
+
+    const deleteUser = user.remove();
+
+    res.status(200).json({
+        success : true,
+        data : {},
+    })
+})
