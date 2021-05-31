@@ -2,7 +2,12 @@ const express = require("express");
 const connectDB = require("./config/db");
 const morgan = require('morgan');
 const dotenv = require('dotenv').config();
+
+
+
+// inital routes
 const user = require('./routes/user')
+const disease = require('./routes/disease')
 
 
 
@@ -16,6 +21,7 @@ app.use(morgan('dev'));
 
 
 app.use('/api/v1/user', user)
+app.use('/api/v1/disease', disease)
 
 const PORT = process.env.PORT || 5000;
 
