@@ -20,10 +20,10 @@ const DiseaseSchema = new mongoose.Schema({
     treatmentPlan : {
       type : String
     },
-    days : [{
+    days : {
       type : mongoose.Schema.ObjectId,
-      ref : 'days'}
-    ],
+      ref : 'days'
+    },
     date: {
       type: Date,
       default: Date.now,

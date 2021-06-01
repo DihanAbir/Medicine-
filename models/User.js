@@ -22,10 +22,10 @@ const UserSchema = new mongoose.Schema({
     bloodGroup : {
         type : String
     },
-    disease : [{
+    disease : {
       type : mongoose.Schema.ObjectId,
-      ref : 'disease'}
-    ],
+      ref : 'disease'
+    },
     date: {
       type: Date,
       default: Date.now,
