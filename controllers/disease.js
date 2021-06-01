@@ -2,19 +2,63 @@ const asycnHandler = require('../middleware/async');
 const Disease = require('../models/Disease')
 
 
-//@desc add  a disease
-//@route POST  /api/v1/disease/addDisease
+//@desc add  a disease with.userid.
+//@route POST  /api/v1/disease/addDisease/:id
 //@access Public
 exports.addADisease = asycnHandler( async(req,res)=>{
+    const userid = req.params.userid;
+
     const { title, bill, due, pay, treatment, treatmentPlan} = req.body;
     console.log(req.body)
 
     // Create user 
-    const disease = await Disease.create({title, bill, due, pay, treatment, treatmentPlan})
+    const disease = await Disease.create({title, bill, due, pay, treatment, treatmentPlan , userid})
 
     res.status(200).json({
         success : true,
-        data : disease
+        data : disease,
+
+    })
+})
+
+//@desc Get All disease of a single user.
+//@route GET  /api/v1/disease/:userid
+//@access Public
+exports.getAllDisease = asycnHandler( async(req,res)=>{
+    const userId = req.params.userId;
+    console.log(`userid`, userId)
+    console.log(`userid`, typeof(userId))
+    // find by user id. 
+    const allDisease = await Disease.find({userid : userId})
+
+    res.status(200).json({
+        success : true,
+        count : allDisease.length,
+        data : allDisease,
+    })
+})
+
+
+
+//@desc Get All diseases 
+//@route GET  /api/v1/disease/
+//@access Public
+exports.getAllTheDiseases = asycnHandler( async(req,res)=>{
+    const allDisease = await Disease.find();
+
+    if(!allDisease){
+        res.status(400).json({
+            success : false,
+            count : allDisease.length,
+            data : "there is no disease"
+        })
+    }
+
+
+    res.status(200).json({
+        success : true,
+        count : allDisease.length,
+        data : allDisease,
     })
 })
 
@@ -35,6 +79,7 @@ exports.getADisease = asycnHandler( async(req,res)=>{
     }
     res.status(200).json({
         success : true,
+        count : disease.length,
         data : disease
     })
 })

@@ -5,6 +5,9 @@ const DiseaseSchema = new mongoose.Schema({
       type: String,
       require: [true, "Title is required"],
     },
+    userid : {
+      type : String
+    },
     bill : {
         type : Number,
     },
