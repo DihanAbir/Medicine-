@@ -19,3 +19,20 @@ exports.addADay = asycnHandler( async(req,res)=>{
         data : days,
     })
 })
+
+
+
+//@desc   Get All Days by Disease
+//@route  GET  /api/v1/days/:diseaseid
+//@access Public
+exports.getAlldaysByDisease = asycnHandler( async(req,res)=>{
+    const diseaseid = req.params.diseaseid;
+
+    // Get days by disease
+    const days = await Days.find({diseaseid})
+
+    res.status(200).json({
+        success : true,
+        data : days,
+    })
+})
