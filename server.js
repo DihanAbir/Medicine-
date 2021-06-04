@@ -6,6 +6,7 @@ const dotenv = require("dotenv").config();
 // inital routes
 const user = require("./routes/user");
 const disease = require("./routes/disease");
+const days = require("./routes/days");
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.use(morgan("dev"));
 
 app.use("/api/v1/user", user);
 app.use("/api/v1/disease", disease);
+app.use("/api/v1/days", days);
 
 const PORT = process.env.PORT || 5000;
 

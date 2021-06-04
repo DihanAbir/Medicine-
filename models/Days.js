@@ -18,6 +18,10 @@ const DaysSchema = new mongoose.Schema({
       type: Date,
       default: Date.now,
     },
+    diseaseid : {
+      type : String,
+      required : true
+    }
   });
 
 
