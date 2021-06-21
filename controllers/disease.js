@@ -7,9 +7,9 @@ const Disease = require("../models/Disease");
 exports.addADisease = asycnHandler(async (req, res) => {
   const userid = req.params.userid;
 
-  const { title, bill, due, pay, treatment, treatmentPlan } = req.body;
+  const { title, bill, pay, treatment, treatmentPlan } = req.body;
   console.log(req.body);
-
+  due = bill - pay;
   // Create user
   const disease = await Disease.create({
     title,
@@ -21,10 +21,17 @@ exports.addADisease = asycnHandler(async (req, res) => {
     userid,
   });
 
-  res.status(200).json({
-    success: true,
-    data: disease,
-  });
+  try {
+    res.status(200).json({
+      success: true,
+      data: disease,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      data: "error ",
+    });
+  }
 });
 
 //@desc Get All disease of a single user.
@@ -64,6 +71,7 @@ exports.getAllTheDiseases = asycnHandler(async (req, res) => {
     data: allDisease,
   });
 });
+
 
 //@desc get A disease by id
 //@route POST  /api/v1/disease/:id

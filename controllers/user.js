@@ -46,9 +46,28 @@ exports.getAllUsers = asycnHandler(async (req, res) => {
 //@route GET  /api/v1/user/:phoneNumber
 //@access Public
 exports.getAUser = asycnHandler(async (req, res) => {
-  const phone = req.params.phone;
+  const _id = req.params.id;
 
-  const user = await User.find({ phone });
+  const user = await User.findById({ _id });
+
+  if (!user) {
+    res.status(200).json({
+      data: "There is no user",
+    });
+  }
+  res.status(200).json({
+    success: true,
+    data: user,
+  });
+});
+
+//@desc get a user by userId
+//@route GET  /api/v1/user/profile/:id
+//@access Public
+exports.getAUserbyid = asycnHandler(async (req, res) => {
+  const id = req.params.id;
+
+  const user = await User.findById({ _id: id });
 
   if (!user) {
     res.status(200).json({
@@ -65,8 +84,8 @@ exports.getAUser = asycnHandler(async (req, res) => {
 //@route PUT  /api/v1/user/:phoneNumber
 //@access Public
 exports.updateAUser = asycnHandler(async (req, res) => {
-  const findPhone = req.params.phone;
-  const user = await User.findOne({ phone: findPhone });
+  const _id = req.params.id;
+  const user = await User.findById({ _id });
 
   if (!user) {
     res.status(200).json({
@@ -109,4 +128,29 @@ exports.deleteAUser = asycnHandler(async (req, res) => {
     success: true,
     data: {},
   });
+});
+
+//@desc Delete dropallUser
+//@route DELETE  /api/v1/user/:phoneNumber
+//@access Public
+exports.dropallUser = asycnHandler(async (req, res) => {
+  const user = await User.deleteMany();
+
+  // if (!user) {
+  //   res.status(200).json({
+  //     data: "There is no user",
+  //   });
+  // }
+
+  try {
+    res.status(200).json({
+      success: true,
+      Message: "All Data Deleted Successfully",
+    });
+  } catch (error) {
+    res.status(404).json({
+      success: false,
+      Message: "All Data Deleted failed",
+    });
+  }
 });

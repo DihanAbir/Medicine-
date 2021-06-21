@@ -1,6 +1,7 @@
 const express = require("express");
 const connectDB = require("./config/db");
 const morgan = require("morgan");
+var cors = require("cors");
 const dotenv = require("dotenv").config();
 
 // inital routes
@@ -15,6 +16,7 @@ connectDB();
 
 app.use(express.json());
 app.use(morgan("dev"));
+app.use(cors());
 
 app.use("/api/v1/user", user);
 app.use("/api/v1/disease", disease);
