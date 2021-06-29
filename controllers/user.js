@@ -92,12 +92,15 @@ exports.updateAUser = asycnHandler(async (req, res) => {
       data: "There is no user",
     });
   }
+  console.log(`user`, user.bloodGroup);
+  console.log(`re.user`, req.body.bloodGroup);
 
   if (user) {
     user.name = req.body.name || user.name;
     user.phone = req.body.phone || user.phone;
     user.age = req.body.age || user.age;
     user.bloodGroup = req.body.bloodGroup || user.bloodGroup;
+    user.gender = req.body.gender || user.gender;
     user.address = req.body.address || user.address;
   }
 
@@ -110,11 +113,11 @@ exports.updateAUser = asycnHandler(async (req, res) => {
 });
 
 //@desc Delete a user by phone number
-//@route DELETE  /api/v1/user/:phoneNumber
+//@route DELETE  /api/v1/user/:id
 //@access Public
 exports.deleteAUser = asycnHandler(async (req, res) => {
-  const findPhone = req.params.phone;
-  const user = await User.findOne({ phone: findPhone });
+  const _id = req.params.id;
+  const user = await User.findByIdAndDelete({ _id });
 
   if (!user) {
     res.status(200).json({
@@ -122,7 +125,7 @@ exports.deleteAUser = asycnHandler(async (req, res) => {
     });
   }
 
-  const deleteUser = user.remove();
+  // const deleteUser = user.remove();
 
   res.status(200).json({
     success: true,

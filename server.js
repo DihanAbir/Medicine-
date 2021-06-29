@@ -22,7 +22,7 @@ app.use("/api/v1/user", user);
 app.use("/api/v1/disease", disease);
 app.use("/api/v1/days", days);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000 || 5001;
 
 app.listen(PORT, () => {
   console.log(`server running - on ${PORT}`);

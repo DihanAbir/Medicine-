@@ -41,10 +41,38 @@ exports.getAlldaysByDisease = asycnHandler(async (req, res) => {
   // Get days by disease
   const days = await Days.find({ diseaseid });
 
-  res.status(200).json({
-    success: true,
-    data: days,
-  });
+  try {
+    res.status(200).json({
+      success: true,
+      data: days,
+    });
+  } catch (error) {
+    res.status(200).json({
+      success: false,
+      Message: "there is no disease",
+    });
+  }
+});
+
+//@desc   Get All Days by Disease
+//@route  GET  /api/v1/days/:diseaseid
+//@access Public
+exports.getAlldays = asycnHandler(async (req, res) => {
+  // Get days by disease
+  const days = await Days.find();
+
+  try {
+    res.status(200).json({
+      total: days.length,
+      success: true,
+      data: days,
+    });
+  } catch (error) {
+    res.status(200).json({
+      success: false,
+      Message: "there is no disease",
+    });
+  }
 });
 
 //@desc   update Days by DiseaseId
@@ -83,6 +111,16 @@ exports.deleteDaysByDaysID = asycnHandler(async (req, res) => {
   const _id = req.params.DaysId;
 
   // Get days by disease
+  const daysToUpdate = await Days.findById(_id);
+  console.log(`daysToUpdate`, daysToUpdate.diseaseid);
+  const id = daysToUpdate.diseaseid;
+
+  // update bill korar jnne desis model k eikhane ana lagteceh
+  const disease = await Disease.findById(id);
+  disease.pay = disease.pay - daysToUpdate.pay;
+  disease.due = disease.due + daysToUpdate.pay;
+  disease.save();
+
   const days = await Days.findByIdAndDelete(_id);
 
   try {
